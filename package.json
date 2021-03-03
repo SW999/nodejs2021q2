@@ -1,0 +1,22 @@
+{
+  "name": "nodejs2021q2",
+  "version": "1.0.0",
+  "description": "NodeJS Global Mentoring Program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SW999/nodejs2021q2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SW999/nodejs2021q2/issues"
+  },
+  "homepage": "https://github.com/SW999/nodejs2021q2#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
