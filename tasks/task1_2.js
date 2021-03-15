@@ -1,19 +1,19 @@
-import * as fs from 'fs';
-import { pipeline } from 'stream';
-import { csv } from "csvtojson";
+var fs = require('fs');
+var { pipeline } = require('stream');
+var csv = require('csvtojson');
 
-const csvToJsonParameters = {
-  delimiter: 'auto',
-  noheader: false,
-  headers: ['book', 'author', 'amount', 'price'],
-  ignoreColumns: /(amount)/,
-  colParser: {
-    "price": item => parseFloat(item.replace(',', '.')),
+var csvToJsonParameters = {
+    delimiter: 'auto',
+    noheader: false,
+    headers: ['book', 'author', 'amount', 'price'],
+    ignoreColumns: /(amount)/,
+    colParser: {
+      "price": item => parseFloat(item.replace(',', '.')),
+    },
   },
-};
-const csvPath = './public/nodejs-hw1-ex1.csv';
-const resultRAMPath = './public/convertedFromRAM.txt';
-const resultPath = './public/converted.txt';
+  csvPath = './public/nodejs-hw1-ex1.csv',
+  resultRAMPath = './public/convertedFromRAM.txt',
+  resultPath = './public/converted.txt';
 
 /* From RAM */
 fs.readFile(csvPath, 'utf8', function (err, data) {
@@ -27,8 +27,9 @@ fs.readFile(csvPath, 'utf8', function (err, data) {
 
   csv(csvToJsonParameters)
     .fromString(data)
-    .subscribe((jsonStr) => {
-      fs.writeFile(resultRAMPath, `${JSON.stringify(jsonStr)}\n`, {
+    .subscribe(function (jsonStr) {
+      var jsonString = JSON.stringify(jsonStr) + '\n';
+      fs.writeFile(resultRAMPath, jsonString, {
         'flag': 'a'
       }, function (err) {
         if (err) {
@@ -36,7 +37,7 @@ fs.readFile(csvPath, 'utf8', function (err, data) {
         }
       });
     });
-  console.log(`Success. Please check output in file "${resultRAMPath}"`);
+  console.log('Success. Please check output in file "' + resultRAMPath + '"');
 });
 
 /* Pipeline method */
@@ -44,12 +45,11 @@ pipeline(
   fs.createReadStream(csvPath),
   csv(csvToJsonParameters),
   fs.createWriteStream(resultPath),
-  (err) => {
+  function (err) {
     if (err) {
       return console.error('Pipeline failed', err);
     }
 
-    console.log(`Pipeline succeeded. Please check output in file "${resultPath}"`);
+    console.log('Pipeline succeeded.  Please check output in file "' + resultPath + '"');
   }
 );
-

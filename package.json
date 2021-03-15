@@ -4,8 +4,9 @@
   "description": "NodeJS Global Mentoring Program",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon  --exec babel-node ./tasks/task1_1.js",
-    "task2": "nodemon  --exec babel-node ./tasks/task1_2.js"
+    "task1": "nodemon ./tasks/task1_1.js",
+    "task2": "nodemon ./tasks/task1_2.js",
+    "task3": "nodemon --exec babel-node ./tasks/task1_3.js"
   },
   "repository": {
     "type": "git",

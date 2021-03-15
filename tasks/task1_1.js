@@ -1,4 +1,4 @@
-import { pipeline, Transform } from 'stream';
+var { pipeline, Transform } = require('stream');
 
 class ReverseTransform extends Transform {
   constructor() {
@@ -7,7 +7,7 @@ class ReverseTransform extends Transform {
 
   _transform(chunk, encoding, callback) {
     try {
-      const resultString = chunk.toString('utf8').split('').reverse().join('');
+      var resultString = chunk.toString('utf8').split('').reverse().join('');
 
       callback(null, `${resultString}\n`);
     } catch (err) {
@@ -20,7 +20,7 @@ pipeline(
   process.stdin,
   new ReverseTransform(),
   process.stdout,
-  (err) => {
+  function (err) {
     if (err) {
       console.error('Pipeline failed', err);
     } else {
