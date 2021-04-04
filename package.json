@@ -1,12 +1,14 @@
 {
   "name": "nodejs2021q2",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "NodeJS Global Mentoring Program",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon ./tasks/task1_1.js",
-    "task2": "nodemon ./tasks/task1_2.js",
-    "task3": "nodemon --exec babel-node ./tasks/task1_3.js"
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./tasks",
+    "task1": "nodemon ./tasks/1/task1_1.js",
+    "task2": "nodemon ./tasks/1/task1_2.js",
+    "task3": "nodemon --exec babel-node ./tasks/1/task1_3.js",
+    "task2_1": "nodemon --exec babel-node ./tasks/2/task2_1.js"
   },
   "repository": {
     "type": "git",
@@ -22,9 +24,15 @@
     "@babel/core": "^7.13.8",
     "@babel/node": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "csvtojson": "^2.0.10"
+    "csvtojson": "^2.0.10",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "open": "^8.0.5",
+    "uuid": "^8.3.2"
   }
 }

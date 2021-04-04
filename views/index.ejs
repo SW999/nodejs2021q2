@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/css/styles.css' />
+</head>
+<body>
+  <div class="container">
+    <h1><%= header %></h1>
+
+    <form id="form">
+      <label>
+        <input type="text" name="loginSubstring" placeholder="User login substring">
+      </label>
+      <label>
+        <input type="number" name="limit" placeholder="Limit">
+      </label>
+      <button type="submit" id="send">Start</button>
+    </form>
+    <hr>
+    <ol id="list"></ol>
+    <br>
+    <button type="text" id="getUser1">Get user id=1</button>
+  </div>
+  <script src="/js/index.js"></script>
+</body>
+</html>
