@@ -11,8 +11,9 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use('/', routes.main);
-app.use('/user', routes.user);
+app.use('/user', routes.validatedUser);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
