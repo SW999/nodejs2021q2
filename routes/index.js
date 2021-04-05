@@ -1,7 +1,9 @@
 import user from './user';
-import index from './indexRouter';
+import validatedUser from './validatedUser';
+import main from './indexRouter';
 
 export default {
-    index,
-    user
+    main,
+    user,
+    validatedUser
 };

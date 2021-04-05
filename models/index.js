@@ -3,7 +3,7 @@ export const users = [
     {
         id: '1',
         login: 'john',
-        password: 'test',
+        password: 'test2',
         age: 25,
         isDeleted: false
     }
