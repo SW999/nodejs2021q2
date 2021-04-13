@@ -1,4 +1,4 @@
-import { users } from '../models';
+import { users } from '../_models';
 import { v4 as uuidv4 } from 'uuid';
 import { getAutoSuggestUsers } from '../utils';
 

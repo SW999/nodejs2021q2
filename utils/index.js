@@ -1,4 +1,4 @@
-import { users } from '../models';
+import { users } from '../_models';
 
 export const getAutoSuggestUsers = (loginSubstring, limit) => {
     const selectedUsers = [];
