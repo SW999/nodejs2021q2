@@ -1,21 +1,16 @@
 {
   "name": "nodejs2021q2",
-  "version": "1.1.1",
+  "version": "1.2.2",
   "description": "NodeJS Global Mentoring Program",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./tasks",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "db:create": "sequelize-cli db:create",
     "db:migrate": "sequelize-cli db:migrate",
     "db:g:migration": "sequelize-cli migration:generate --name",
     "db:g:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
-    "task1": "nodemon ./tasks/1/task1_1.js",
-    "task2": "nodemon ./tasks/1/task1_2.js",
-    "task3": "nodemon --exec babel-node ./tasks/1/task1_3.js",
-    "task2_1": "nodemon --exec babel-node ./tasks/2/task2_1.js",
-    "task2_2": "nodemon --exec babel-node ./tasks/2/task2_2.js",
-    "task3_1": "nodemon --exec babel-node ./tasks/3/task3_1.js"
+    "start": "nodemon --exec babel-node ./app.js"
   },
   "repository": {
     "type": "git",
