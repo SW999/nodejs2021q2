@@ -5,22 +5,77 @@
   <link rel='stylesheet' href='/css/styles.css' />
 </head>
 <body>
+<h1><%= header %></h1>
   <div class="container">
-    <h1><%= header %></h1>
-
-    <form id="form">
-      <label>
-        <input type="text" name="loginSubstring" placeholder="User login substring">
-      </label>
-      <label>
-        <input type="number" name="limit" placeholder="Limit">
-      </label>
-      <button type="submit" id="send">Start</button>
-    </form>
-    <hr>
-    <ol id="list"></ol>
-    <br>
-    <button type="text" id="getUser1">Get user id=1</button>
+    <div class="column">
+      <h2>User with id=1</h2>
+      <button type="button" id="getUser1">Get</button>
+      <br>
+      <br>
+      <code id="user1"></code>
+    </div>
+    <div class="column">
+      <h2>Create user</h2>
+      <form id="createForm">
+        <label>
+          <input type="text" name="login" placeholder="Login">
+        </label>
+        <label>
+          <input type="text" name="password" placeholder="Password">
+        </label>
+        <label>
+          <input type="number" name="age" placeholder="Age">
+        </label>
+        <button type="submit" id="create">Create</button>
+      </form>
+      <br>
+      <code id="newUser"></code>
+    </div>
+    <div class="column">
+      <h2>Update user</h2>
+      <form id="updateForm">
+        <label>
+          <input type="number" name="id" placeholder="Id">
+        </label>
+        <label>
+          <input type="text" name="login" placeholder="Login">
+        </label>
+        <label>
+          <input type="text" name="password" placeholder="Password">
+        </label>
+        <label>
+          <input type="number" name="age" placeholder="Age">
+        </label>
+        <button type="submit" id="update">Update</button>
+      </form>
+      <br>
+      <code id="updatedUser"></code>
+    </div>
+    <div class="column">
+      <h2>Delete user</h2>
+      <form id="deleteForm">
+        <label>
+          <input type="number" name="id" placeholder="Id">
+        </label>
+        <button type="submit" id="delete">Delete</button>
+      </form>
+      <br>
+      <code id="deletedUser"></code>
+    </div>
+    <div class="column">
+      <h2>Auto Suggest Users List</h2>
+      <form id="form">
+        <label>
+          <input type="text" name="loginSubstring" placeholder="User login substring">
+        </label>
+        <label>
+          <input type="number" name="limit" placeholder="Limit">
+        </label>
+        <button type="submit" id="send">Get</button>
+      </form>
+      <br>
+      <ol id="list"></ol>
+    </div>
   </div>
   <script src="/js/index.js"></script>
 </body>
