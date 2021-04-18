@@ -1,23 +1,26 @@
 const forms = document.querySelectorAll('form');
 const $form = document.getElementById('form');
+const $getUser = document.getElementById('getUserForm');
 const $createForm = document.getElementById('createForm');
 const $updateForm = document.getElementById('updateForm');
 const $deleteForm = document.getElementById('deleteForm');
+const $get = document.getElementById('getUserById');
 const $send = document.getElementById('send');
 const $create = document.getElementById('create');
 const $update = document.getElementById('update');
 const $delete = document.getElementById('delete');
-const $getUser = document.getElementById('getUser1');
-
-$getUser.addEventListener('click', async e => {
-    e.preventDefault();
-    const response = await fetch('/users/1');
-    const result = await response.json();
-    document.getElementById('user1').innerHTML = JSON.stringify(result, null, 4);
-});
 
 forms.forEach(item => {
     item.addEventListener('send', e => e.preventDefault());
+});
+
+$get.addEventListener('click', async e => {
+    e.preventDefault();
+    const formData = new FormData($getUser);
+
+    const response = await fetch(`/users/${formData.get('id')}`);
+    const result = await response.json();
+    document.getElementById('userById').innerHTML = JSON.stringify(result, null, 4);
 });
 
 $create.addEventListener('click', async e => {

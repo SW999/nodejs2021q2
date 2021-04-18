@@ -8,11 +8,16 @@
 <h1><%= header %></h1>
   <div class="container">
     <div class="column">
-      <h2>User with id=1</h2>
-      <button type="button" id="getUser1">Get</button>
+      <h2>User by id</h2>
+      <form id="getUserForm">
+        <label>
+          <input type="number" name="id" placeholder="Id">
+        </label>
+        <button type="submit" id="getUserById">Get</button>
+      </form>
       <br>
       <br>
-      <code id="user1"></code>
+      <code id="userById"></code>
     </div>
     <div class="column">
       <h2>Create user</h2>
