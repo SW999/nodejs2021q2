@@ -1,46 +1,68 @@
-import { users } from '../models';
-import { v4 as uuidv4 } from 'uuid';
+import { Users } from '../models';
 import { getAutoSuggestUsers } from '../utils';
 
-export const getUserById = (req, res) => {
-    const user = users.find(item => item.id === req.params.id);
-    if (!user) {
-        return res.sendStatus(404);
+export const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await Users.findOne({
+            where: { id }
+        });
+        // const user = await models.Users.findAll();
+        if (user) {
+            return res.status(200).json(user);
+        }
+        return res.status(404).send('User with the specified ID does not exists');
+    } catch (error) {
+        return res.status(500).send(error.message);
     }
-    res.json(user);
 };
 
-export const createUser = (req, res) => {
-    const user = req.body;
-
-    user.id = uuidv4();
-    users.push(user);
-    res.sendStatus(200);
-};
-
-export const editUser = (req, res) => {
-    const user = req.body;
-    const index = users.findIndex(item => item.id === req.params.id);
-    if (index < 0) {
-        return res.sendStatus(404);
+export const createUser = async (req, res) => {
+    try {
+        const user = await Users.create(req.body);
+        return res.status(201).json(user);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
-
-    users[index] = { ...users[index], ...user };
-    res.sendStatus(200);
 };
 
-export const deleteUser = (req, res) => {
-    const index = users.findIndex(item => item.id === req.params.id);
-    if (index < 0) {
+export const editUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [updated] = await Users.update(req.body, {
+            where: { id }
+        });
+        if (updated) {
+            const updatedUser = await Users.findOne({ where: { id } });
+            return res.status(200).json({ user: updatedUser });
+        }
         return res.sendStatus(404);
+    } catch (error) {
+        return res.status(500).send(error.message);
     }
-
-    users[index].isDeleted = true;
-    res.sendStatus(200);
 };
 
-export const getLimitedUsersByLoginSubstring = (req, res) => {
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [deleted] = await Users.update({ isDeleted: true }, {
+            where: { id }
+        });
+        if (deleted) {
+            const deletedUser = await Users.findOne({ where: { id } });
+            return res.status(200).json({ user: deletedUser });
+        }
+        return res.sendStatus(404);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+};
+
+export const getLimitedUsersByLoginSubstring = async (req, res) => {
     const { loginSubstring, limit } = req.query;
-
-    res.send(getAutoSuggestUsers(loginSubstring, limit));
+    const { error, users } = await getAutoSuggestUsers(loginSubstring, limit);
+    if (error) {
+        return res.status(500).send(error);
+    }
+    return res.status(200).json(users);
 };
