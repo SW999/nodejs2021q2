@@ -8,8 +8,8 @@ const csvToJsonParameters = {
   headers: ['book', 'author', 'amount', 'price'],
   ignoreColumns: /(amount)/,
   colParser: {
-    "price": item => parseFloat(item.replace(',', '.')),
-  },
+    "price": item => parseFloat(item.replace(',', '.'))
+  }
 };
 const csvPath = './public/nodejs-hw1-ex1.csv';
 const resultRAMPath = './public/convertedFromRAM.txt';
@@ -22,7 +22,7 @@ fs.readFile(csvPath, 'utf8', (err, data) => {
   }
 
   try {
-    fs.unlinkSync(resultRAMPath)
+    fs.unlinkSync(resultRAMPath);
   } catch (err) {}
 
   csv(csvToJsonParameters)
