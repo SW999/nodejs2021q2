@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import controllers from '../controllers';
 
 const router = Router();
 
-router.get('/', controllers.mainController);
+router.get('/', (req, res) => {
+    res.render('index', { title: 'Auto Suggest Users List', header: 'Get user list' });
+});
 
 export default router;
