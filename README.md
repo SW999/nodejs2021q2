@@ -1,8 +1,6 @@
 # NodeJS Global Mentoring Program [2021Q2 BY PM1]
 
-## Task 3
-
-**Please note:** two subtasks are **merged into one** because of the way of implementation. This solution was discussed and **approved** by the program mentor.
+## Task 4
 
 ## Setup
 First of all, you need **Postgresql** DB installed on your machine.

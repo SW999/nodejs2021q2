@@ -1,9 +1,9 @@
-import { Users } from '../models';
+import { User } from '../models';
 import { Op } from 'sequelize';
 
 export const getAutoSuggestUsers = async (loginSubstring, limit) => {
     try {
-        const users = await Users.findAll({
+        const users = await User.findAll({
             raw : true,
             attributes: ['login'],
             where: {
