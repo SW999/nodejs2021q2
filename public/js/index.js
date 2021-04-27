@@ -10,6 +10,9 @@ const $create = document.getElementById('create');
 const $update = document.getElementById('update');
 const $delete = document.getElementById('delete');
 
+const $getGroup = document.getElementById('getGroupById');
+const $groupForm = document.getElementById('getGroupForm');
+
 forms.forEach(item => {
     item.addEventListener('send', e => e.preventDefault());
 });
@@ -87,4 +90,16 @@ $send.addEventListener('click', async e => {
     } catch (error) {
         console.error('Error:', error);
     }
+});
+
+// ************* Groups *************
+$getGroup.addEventListener('click', async e => {
+    e.preventDefault();
+    const formData = new FormData($groupForm);
+    const id = formData.get('id');
+    const url = id ? `/groups/${id}` : '/groups';
+
+    const response = await fetch(url);
+    const result = await response.json();
+    document.getElementById('groupById').innerHTML = JSON.stringify(result, null, 4);
 });

@@ -1,3 +1,7 @@
+import {
+    getAllGroups,
+    getGroupById
+} from './groupController';
 import { mainController } from './mainController';
 import {
     createUser,
@@ -8,6 +12,9 @@ import {
 } from './userController';
 
 export default {
+    getAllGroups,
+    getGroupById,
+
     createUser,
     deleteUser,
     editUser,
