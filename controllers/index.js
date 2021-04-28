@@ -1,4 +1,7 @@
 import {
+    createGroup,
+    deleteGroup,
+    editGroup,
     getAllGroups,
     getGroupById
 } from './groupController';
@@ -12,6 +15,9 @@ import {
 } from './userController';
 
 export default {
+    createGroup,
+    deleteGroup,
+    editGroup,
     getAllGroups,
     getGroupById,
 

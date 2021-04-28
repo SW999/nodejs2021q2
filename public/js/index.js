@@ -12,6 +12,12 @@ const $delete = document.getElementById('delete');
 
 const $getGroup = document.getElementById('getGroupById');
 const $groupForm = document.getElementById('getGroupForm');
+const $createGroup = document.getElementById('createGroup');
+const $createGroupForm = document.getElementById('createGroupForm');
+const $updateGroup = document.getElementById('updateGroup');
+const $updateGroupForm = document.getElementById('updateGroupForm');
+const $deleteGroup = document.getElementById('deleteGroup');
+const $deleteGroupForm = document.getElementById('deleteGroupForm');
 
 forms.forEach(item => {
     item.addEventListener('send', e => e.preventDefault());
@@ -43,7 +49,6 @@ $create.addEventListener('click', async e => {
         console.error('Error:', error);
     }
 });
-
 
 $update.addEventListener('click', async e => {
     e.preventDefault();
@@ -102,4 +107,53 @@ $getGroup.addEventListener('click', async e => {
     const response = await fetch(url);
     const result = await response.json();
     document.getElementById('groupById').innerHTML = JSON.stringify(result, null, 4);
+});
+
+$createGroup.addEventListener('click', async e => {
+    e.preventDefault();
+
+    const formData = new FormData($createGroupForm);
+    const options = {
+        method: 'POST',
+        body: formData
+    };
+    try {
+        const response = await fetch('/groups', options);
+        const result = await response.json();
+        document.getElementById('newGroup').innerHTML = JSON.stringify(result, null, 4);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+$updateGroup.addEventListener('click', async e => {
+    e.preventDefault();
+
+    const formData = new FormData($updateGroupForm);
+    const options = {
+        method: 'PUT',
+        body: formData
+    };
+    try {
+        const response = await fetch(`/groups/${formData.get('id')}`, options);
+        const result = await response.json();
+        document.getElementById('updatedGroup').innerHTML = JSON.stringify(result, null, 4);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+$deleteGroup.addEventListener('click', async e => {
+    e.preventDefault();
+
+    const formData = new FormData($deleteGroupForm);
+    const options = {
+        method: 'DELETE'
+    };
+    try {
+        const response = await fetch(`/groups/${formData.get('id')}`, options);
+        document.getElementById('deletedGroup').innerHTML = response.ok ? 'Deleted' : response.statusText;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });

@@ -23,15 +23,15 @@ h2 {
 }
 .container {
     display: flex;
-    flex: 1;
     width: 100%;
     margin: 0 auto;
     padding: 80px 0;
     text-align: center;
 }
 .column {
+    flex: 1;
     width: 19%;
-    height: 400px;
+    height: 600px;
     padding: 0 7px;
 }
 .column:not(:last-child) {
@@ -42,7 +42,8 @@ form {
     padding: 20px 0;
     z-index: 2;
 }
-input:not([type="radio"]) {
+input[type="text"],
+input[type="number"] {
     display: block;
     width: 250px;
     margin: 0 auto 10px auto;
@@ -57,10 +58,12 @@ input:not([type="radio"]) {
     text-align: center;
     background-color: rgba(255, 255, 255, 0.2);
 }
-input:not([type="radio"]):hover {
+input[type="text"]:hover,
+input[type="number"]:hover {
     background-color: rgba(255, 255, 255, 0.4);
 }
-input:not([type="radio"]):focus {
+input[type="text"]:focus,
+input[type="number"]:focus {
     width: 300px;
     color: #2d91c0a4;
     background-color: white;
@@ -91,13 +94,35 @@ ol {
 }
 code {
     display: block;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
     white-space: pre;
     text-align: left;
     font-family: monospace;
 }
-
-
-
+fieldset {
+    border-style: solid;
+    width: 250px;
+    margin: 0 auto 10px auto;
+    padding: 10px 15px;
+    appearance: none;
+    outline: 0;
+    border-color: #fff;
+}
+fieldset label {
+    display: inline-block;
+    width: calc(100% - 30px);
+    margin-left: 13px;
+    margin-bottom: 7px;
+    font-size: 18px;
+    text-align: left;
+}
+legend {
+    text-align: left;
+    padding: 0 10px;
+    font-size: 18px;
+}
 
 input[type="radio"] {
     position: absolute;

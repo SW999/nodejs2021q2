@@ -7,10 +7,11 @@ const router = Router();
 router.get('/', controllers.getAllGroups);
 
 router.route('/:id')
-    .get(controllers.getGroupById);
-// .put(validateSchema(userSchemaEdit), controllers.editUser)
-// .delete(controllers.deleteUser);
+    .get(controllers.getGroupById)
+    .put(controllers.editGroup)
+    .delete(controllers.deleteGroup);
 
-// router.post('/', validateSchema(userSchema), controllers.createUser);
+router.post('/', controllers.createGroup); // TODO: Add validation
+// validateSchema(userSchema)
 
 export default router;
