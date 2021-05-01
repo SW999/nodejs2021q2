@@ -5,7 +5,7 @@ module.exports = {
     'development': {
         'username': DB_USERNAME,
         'password': DB_PASSWORD,
-        'database': 'dev_db',
+        'database': 'postgres_dev',
         'host': DB_HOST,
         'dialect': 'postgres'
     },
@@ -24,5 +24,6 @@ module.exports = {
         'dialect': 'postgres'
     }
 };
+
 // npx sequelize-cli model:generate --name User --attributes login:string,password:string,age:integer,isDeleted:boolean
 // npx sequelize-cli model:generate --name Group --attributes name:string,permissions:enum

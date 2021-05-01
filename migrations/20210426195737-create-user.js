@@ -1,31 +1,24 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
+        const { INTEGER, STRING, BOOLEAN } = Sequelize;
         await queryInterface.createTable('Users', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: INTEGER
             },
             login: {
-                type: Sequelize.STRING
+                type: STRING
             },
             password: {
-                type: Sequelize.STRING
+                type: STRING
             },
             age: {
-                type: Sequelize.INTEGER
+                type: INTEGER
             },
             isDeleted: {
-                type: Sequelize.BOOLEAN
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
+                type: BOOLEAN
             }
         });
     },

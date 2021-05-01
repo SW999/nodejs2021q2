@@ -6,15 +6,13 @@ module.exports = {
             [
                 {
                     name: 'admin',
-                    permissions: Sequelize.literal(`ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']::"enum_Groups_permissions"[]`),
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    // eslint-disable-next-line
+                    permissions: Sequelize.literal(`ARRAY['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']::"enum_Groups_permissions"[]`)
                 },
                 {
                     name: 'user',
-                    permissions: Sequelize.literal(`ARRAY['READ', 'SHARE']::"enum_Groups_permissions"[]`),
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    // eslint-disable-next-line
+                    permissions: Sequelize.literal(`ARRAY['READ', 'SHARE']::"enum_Groups_permissions"[]`)
                 }
             ],
             {}

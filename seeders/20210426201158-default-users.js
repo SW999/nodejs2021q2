@@ -8,25 +8,19 @@ module.exports = {
                     login: 'John',
                     password: 'test1',
                     age: 25,
-                    isDeleted: false,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    isDeleted: false
                 },
                 {
                     login: 'John Nash',
                     password: 'test2',
                     age: 60,
-                    isDeleted: false,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    isDeleted: false
                 },
                 {
                     login: 'John Doe',
                     password: 'test3',
                     age: 40,
-                    isDeleted: false,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    isDeleted: false
                 }
             ],
             {}

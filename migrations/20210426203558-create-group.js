@@ -1,19 +1,20 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
+        const { INTEGER, STRING, ARRAY, ENUM } = Sequelize;
         await queryInterface.createTable('Groups', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: INTEGER
             },
             name: {
-                type: Sequelize.STRING
+                type: STRING
             },
             permissions: {
                 allowNull: false,
-                type: Sequelize.ARRAY(
-                    Sequelize.ENUM([
+                type: ARRAY(
+                    ENUM([
                         'READ',
                         'WRITE',
                         'DELETE',
@@ -21,14 +22,6 @@ module.exports = {
                         'UPLOAD_FILES'
                     ])
                 )
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
             }
         });
     },
