@@ -1,4 +1,4 @@
-import { User, Group, sequelize } from '../models';
+import { User } from '../models';
 import { getAutoSuggestUsers } from '../utils';
 
 export const getUserById = async (req, res) => {
@@ -66,28 +66,3 @@ export const getLimitedUsersByLoginSubstring = async (req, res) => {
     }
     return res.status(200).json(users);
 };
-
-// ///////////////////////////
-const addUsersToGroup = async (groupId, userId) => {
-    try {
-        const result = await sequelize.transaction(async (t) => {
-            const user = await User.findOne({
-                where: { id: userId }
-            });
-            const group = await Group.findOne({
-                where: { id: groupId }
-            });
-
-            await user.addGroup(group, { transaction: t });
-
-            return user;
-        });
-        console.log('result: ', result);
-    } catch (error) {
-        console.error(error.message);
-    }
-};
-setTimeout(() => addUsersToGroup(2, 3), 1000);
-setTimeout(() => addUsersToGroup(2, 2), 1000);
-setTimeout(() => addUsersToGroup(2, 1), 1000);
-

@@ -1,4 +1,4 @@
-import { User } from '../models';
+import { Group, sequelize, User } from '../models';
 import { Op } from 'sequelize';
 
 export const getAutoSuggestUsers = async (loginSubstring, limit) => {
@@ -14,6 +14,25 @@ export const getAutoSuggestUsers = async (loginSubstring, limit) => {
             limit
         });
         return { users: users.map(user => user.login).sort() };
+    } catch (error) {
+        return { error: error.message };
+    }
+};
+
+export const addUsersToGroup = async (groupId, userId) => {
+    try {
+        return await sequelize.transaction(async (t) => {
+            const user = await User.findOne({
+                where: { id: userId }
+            });
+            const group = await Group.findOne({
+                where: { id: groupId }
+            });
+
+            await user.addGroup(group, { transaction: t });
+
+            return { result: user };
+        });
     } catch (error) {
         return { error: error.message };
     }

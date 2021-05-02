@@ -1,4 +1,5 @@
 import {
+    addUserGroup,
     createGroup,
     deleteGroup,
     editGroup,
@@ -15,6 +16,7 @@ import {
 } from './userController';
 
 export default {
+    addUserGroup,
     createGroup,
     deleteGroup,
     editGroup,

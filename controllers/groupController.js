@@ -1,4 +1,5 @@
 import { Group } from '../models';
+import { addUsersToGroup } from '../utils';
 
 export const getAllGroups = async (req, res) => {
     try {
@@ -68,4 +69,13 @@ export const deleteGroup = async (req, res) => {
     } catch (error) {
         return res.status(500).send(error.message);
     }
+};
+
+export const addUserGroup = async (req, res) => {
+    const { groupId, userId } = req.params;
+    const { error, result } = addUsersToGroup(groupId, userId);
+    if (error && !result) {
+        return res.status(500).send(error || { error: 'There is no such user or group' });
+    }
+    return res.status(200).json({ result: `User #${userId} was added to group #${groupId}` });
 };

@@ -10,6 +10,7 @@ router.route('/:id')
     .put(controllers.editGroup)
     .delete(controllers.deleteGroup);
 
-router.post('/', controllers.createGroup); // TODO: Add validation
+router.post('/', controllers.createGroup);
+router.post('/:userId/:groupId', controllers.addUserGroup);
 
 export default router;

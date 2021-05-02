@@ -19,10 +19,14 @@ const $updateGroupForm = document.getElementById('updateGroupForm');
 const $deleteGroup = document.getElementById('deleteGroup');
 const $deleteGroupForm = document.getElementById('deleteGroupForm');
 
+const $addUserToGroupForm = document.getElementById('addUserToGroupForm');
+const $addUserToGroup = document.getElementById('addUserToGroup');
+
 forms.forEach(item => {
     item.addEventListener('send', e => e.preventDefault());
 });
 
+// ************* Users *************
 $get.addEventListener('click', async e => {
     e.preventDefault();
     const formData = new FormData($getUser);
@@ -153,6 +157,22 @@ $deleteGroup.addEventListener('click', async e => {
     try {
         const response = await fetch(`/groups/${formData.get('id')}`, options);
         document.getElementById('deletedGroup').innerHTML = response.ok ? 'Deleted' : response.statusText;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+$addUserToGroup.addEventListener('click', async e => {
+    e.preventDefault();
+
+    const formData = new FormData($addUserToGroupForm);
+    const options = {
+        method: 'POST'
+    };
+    try {
+        const response = await fetch(`/groups/${formData.get('userId')}/${formData.get('groupId')}`, options);
+        const result = await response.json();
+        document.getElementById('userToGroup').innerHTML = JSON.stringify(result, null, 4);
     } catch (error) {
         console.error('Error:', error);
     }

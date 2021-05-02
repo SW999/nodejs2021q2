@@ -12,20 +12,15 @@ DB_HOST="127.0.0.1"
 DB_USERNAME=[YOUR_DB_USER]
 DB_PASSWORD=[YOUR_DB_PASSWORD]
 ```
-Create DB:
+Initialize DB:
 ```sh
-npm run db:create
+npm run init
 ```
-Will be created the '**database_dev**' BD.
+Will be done:
+- created the '**postgres_dev**' BD,
+ - created **Users** and **Groups** tables in database,
+- transferd prepared default users and groups from 'seeds' to the database.
 
-To create the **User** table in database you need to run:
-```sh
-npm run db:migrate
-```
-To transfer prepared default users from 'seeds' to the database you have to run:
-```sh
-npm run db:seed:all
-```
 To start an app you have to run:
 ```sh
 npm start
