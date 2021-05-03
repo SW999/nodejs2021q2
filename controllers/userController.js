@@ -1,13 +1,11 @@
-import { Users } from '../models';
+import { User } from '../models';
 import { getAutoSuggestUsers } from '../utils';
 
 export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await Users.findOne({
-            where: { id }
-        });
-        // const user = await models.Users.findAll();
+        const user = await User.findByPk(id);
+        // const user = await models.User.findAll();
         if (user) {
             return res.status(200).json(user);
         }
@@ -19,7 +17,7 @@ export const getUserById = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try {
-        const user = await Users.create(req.body);
+        const user = await User.create(req.body);
         return res.status(201).json(user);
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -29,11 +27,11 @@ export const createUser = async (req, res) => {
 export const editUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const [updated] = await Users.update(req.body, {
+        const [updated] = await User.update(req.body, {
             where: { id }
         });
         if (updated) {
-            const updatedUser = await Users.findOne({ where: { id } });
+            const updatedUser = await User.findOne({ where: { id } });
             return res.status(200).json({ user: updatedUser });
         }
         return res.sendStatus(404);
@@ -45,11 +43,11 @@ export const editUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const [deleted] = await Users.update({ isDeleted: true }, {
+        const [deleted] = await User.update({ isDeleted: true }, {
             where: { id }
         });
         if (deleted) {
-            const deletedUser = await Users.findOne({ where: { id } });
+            const deletedUser = await User.findOne({ where: { id } });
             return res.status(200).json({ user: deletedUser });
         }
         return res.sendStatus(404);

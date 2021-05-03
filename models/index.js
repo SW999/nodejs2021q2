@@ -12,6 +12,8 @@ if (config.use_env_variable) {
     sequelize = new Sequelize(database, username, password, config);
 }
 
+sequelize.sync();
+
 // eslint-disable-next-line no-sync
 fs
     .readdirSync(__dirname)

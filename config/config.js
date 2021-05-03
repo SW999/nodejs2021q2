@@ -5,23 +5,25 @@ module.exports = {
     'development': {
         'username': DB_USERNAME,
         'password': DB_PASSWORD,
-        'database': 'database_dev',
+        'database': 'postgres_dev',
         'host': DB_HOST,
         'dialect': 'postgres'
     },
     'test': {
         'username': DB_USERNAME,
         'password': DB_PASSWORD,
-        'database': 'sequelize_database_test',
+        'database': 'database_test',
         'host': DB_HOST,
         'dialect': 'postgres'
     },
     'production': {
         'username': DB_USERNAME,
         'password': DB_PASSWORD,
-        'database': 'sequelize_database_prod',
+        'database': 'database_prod',
         'host': DB_HOST,
         'dialect': 'postgres'
     }
 };
-// npm run sequelize-cli model:generate --name Users --attributes login:string,password:string,age:integer,isDeleted:boolean
+
+// npx sequelize-cli model:generate --name User --attributes login:string,password:string,age:integer,isDeleted:boolean
+// npx sequelize-cli model:generate --name Group --attributes name:string,permissions:enum

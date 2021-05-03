@@ -6,82 +6,180 @@
 </head>
 <body>
 <h1><%= header %></h1>
-  <div class="container">
-    <div class="column">
-      <h2>User by id</h2>
-      <form id="getUserForm">
-        <label>
-          <input type="number" name="id" placeholder="Id">
-        </label>
-        <button type="submit" id="getUserById">Get</button>
-      </form>
-      <br>
-      <br>
-      <code id="userById"></code>
-    </div>
-    <div class="column">
-      <h2>Create user</h2>
-      <form id="createForm">
-        <label>
-          <input type="text" name="login" placeholder="Login">
-        </label>
-        <label>
-          <input type="text" name="password" placeholder="Password">
-        </label>
-        <label>
-          <input type="number" name="age" placeholder="Age">
-        </label>
-        <button type="submit" id="create">Create</button>
-      </form>
-      <br>
-      <code id="newUser"></code>
-    </div>
-    <div class="column">
-      <h2>Update user</h2>
-      <form id="updateForm">
-        <label>
-          <input type="number" name="id" placeholder="Id">
-        </label>
-        <label>
-          <input type="text" name="login" placeholder="Login">
-        </label>
-        <label>
-          <input type="text" name="password" placeholder="Password">
-        </label>
-        <label>
-          <input type="number" name="age" placeholder="Age">
-        </label>
-        <button type="submit" id="update">Update</button>
-      </form>
-      <br>
-      <code id="updatedUser"></code>
-    </div>
-    <div class="column">
-      <h2>Delete user</h2>
-      <form id="deleteForm">
-        <label>
-          <input type="number" name="id" placeholder="Id">
-        </label>
-        <button type="submit" id="delete">Delete</button>
-      </form>
-      <br>
-      <code id="deletedUser"></code>
-    </div>
-    <div class="column">
-      <h2>Auto Suggest Users List</h2>
-      <form id="form">
-        <label>
-          <input type="text" name="loginSubstring" placeholder="User login substring">
-        </label>
-        <label>
-          <input type="number" name="limit" placeholder="Limit">
-        </label>
-        <button type="submit" id="send">Get</button>
-      </form>
-      <br>
-      <ol id="list"></ol>
+<div class="tabs">
+  <div class="tab">
+    <input type="radio" id="usersTab" name="rd">
+    <label class="tab-label" for="usersTab">Users</label>
+    <div class="tab-content">
+      <div class="container">
+        <div class="column">
+          <h2>User by id</h2>
+          <form id="getUserForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <button type="submit" id="getUserById">Get</button>
+          </form>
+          <br>
+          <br>
+          <code id="userById"></code>
+        </div>
+        <div class="column">
+          <h2>Create user</h2>
+          <form id="createForm">
+            <label>
+              <input type="text" name="login" placeholder="Login">
+            </label>
+            <label>
+              <input type="text" name="password" placeholder="Password">
+            </label>
+            <label>
+              <input type="number" name="age" placeholder="Age">
+            </label>
+            <button type="submit" id="create">Create</button>
+          </form>
+          <br>
+          <code id="newUser"></code>
+        </div>
+        <div class="column">
+          <h2>Update user</h2>
+          <form id="updateForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <label>
+              <input type="text" name="login" placeholder="Login">
+            </label>
+            <label>
+              <input type="text" name="password" placeholder="Password">
+            </label>
+            <label>
+              <input type="number" name="age" placeholder="Age">
+            </label>
+            <button type="submit" id="update">Update</button>
+          </form>
+          <br>
+          <code id="updatedUser"></code>
+        </div>
+        <div class="column">
+          <h2>Delete user</h2>
+          <form id="deleteForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <button type="submit" id="delete">Delete</button>
+          </form>
+          <br>
+          <code id="deletedUser"></code>
+        </div>
+        <div class="column">
+          <h2>Auto Suggest Users List</h2>
+          <form id="form">
+            <label>
+              <input type="text" name="loginSubstring" placeholder="User login substring">
+            </label>
+            <label>
+              <input type="number" name="limit" placeholder="Limit">
+            </label>
+            <button type="submit" id="send">Get</button>
+          </form>
+          <br>
+          <ol id="list"></ol>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="tab">
+    <input type="radio" id="groupsTab" name="rd">
+    <label class="tab-label" for="groupsTab">Groups</label>
+    <div class="tab-content">
+      <div class="container">
+        <div class="column">
+          <h2>All Groups or by id</h2>
+          <form id="getGroupForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <button type="submit" id="getGroupById">Get</button>
+          </form>
+          <br>
+          <br>
+          <code id="groupById"></code>
+        </div>
+        <div class="column">
+          <h2>Create group</h2>
+          <form id="createGroupForm">
+            <label>
+              <input type="text" name="name" placeholder="Group name">
+            </label>
+            <fieldset>
+              <legend>Permissions</legend>
+              <input type="checkbox" name="permissions" id="permissionRead" value="READ"> <label for="permissionRead">Read</label>
+              <input type="checkbox" name="permissions" id="permissionWrite" value="WRITE"> <label for="permissionWrite">Write</label>
+              <input type="checkbox" name="permissions" id="permissionDelete" value="DELETE"> <label for="permissionDelete">Delete</label>
+              <input type="checkbox" name="permissions" id="permissionShare" value="SHARE"> <label for="permissionShare">Share</label>
+              <input type="checkbox" name="permissions" id="permissionUpload" value="UPLOAD_FILES"> <label for="permissionUpload">Upload files</label>
+            </fieldset>
+            <button type="submit" id="createGroup">Create</button>
+          </form>
+          <br>
+          <code id="newGroup"></code>
+        </div>
+        <div class="column">
+          <h2>Update group</h2>
+          <form id="updateGroupForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <label>
+              <input type="text" name="name" placeholder="Name">
+            </label>
+            <fieldset>
+              <legend>Permissions</legend>
+              <input type="checkbox" name="permissions" id="editPermissionRead" value="READ"> <label for="editPermissionRead">Read</label>
+              <input type="checkbox" name="permissions" id="editPermissionWrite" value="WRITE"> <label for="editPermissionWrite">Write</label>
+              <input type="checkbox" name="permissions" id="editPermissionDelete" value="DELETE"> <label for="editPermissionDelete">Delete</label>
+              <input type="checkbox" name="permissions" id="editPermissionShare" value="SHARE"> <label for="editPermissionShare">Share</label>
+              <input type="checkbox" name="permissions" id="editPermissionUpload" value="UPLOAD_FILES"> <label for="editPermissionUpload">Upload files</label>
+            </fieldset>
+            <button type="submit" id="updateGroup">Update</button>
+          </form>
+          <br>
+          <code id="updatedGroup"></code>
+        </div>
+        <div class="column">
+          <h2>Delete group</h2>
+          <form id="deleteGroupForm">
+            <label>
+              <input type="number" name="id" placeholder="Id">
+            </label>
+            <button type="submit" id="deleteGroup">Delete</button>
+          </form>
+          <br>
+          <code id="deletedGroup"></code>
+        </div>
+        <div class="column">
+          <h2>Add user to a group</h2>
+          <form id="addUserToGroupForm">
+            <label>
+              <input type="text" name="userIds" placeholder="Comma separated userIds">
+            </label>
+            <label>
+              <input type="number" name="groupId" placeholder="groupId">
+            </label>
+            <button type="submit" id="addUserToGroup">Add</button>
+          </form>
+          <br>
+          <code id="userToGroup"></code>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab">
+    <input type="radio" id="closeOthers" name="rd">
+    <label for="closeOthers" class="tab-close">Close others &times;</label>
+  </div>
+</div>
   <script src="/js/index.js"></script>
 </body>
 </html>
