@@ -63,8 +63,9 @@ $update.addEventListener('click', async e => {
         method: 'PUT',
         body: formData
     };
+    const id = formData.get('id') ? formData.get('id') : null;
     try {
-        const response = await fetch(`/users/${formData.get('id')}`, options);
+        const response = await fetch(`/users/${id}`, options);
         const result = await response.json();
         document.getElementById('updatedUser').innerHTML = JSON.stringify(result, null, 4);
     } catch (error) {
@@ -138,8 +139,9 @@ $updateGroup.addEventListener('click', async e => {
         method: 'PUT',
         body: formData
     };
+    const id = formData.get('id') ? formData.get('id') : null;
     try {
-        const response = await fetch(`/groups/${formData.get('id')}`, options);
+        const response = await fetch(`/groups/${id}`, options);
         const result = await response.json();
         document.getElementById('updatedGroup').innerHTML = JSON.stringify(result, null, 4);
     } catch (error) {
@@ -167,10 +169,11 @@ $addUserToGroup.addEventListener('click', async e => {
 
     const formData = new FormData($addUserToGroupForm);
     const options = {
-        method: 'POST'
+        method: 'POST',
+        body: formData
     };
     try {
-        const response = await fetch(`/groups/${formData.get('userId')}/${formData.get('groupId')}`, options);
+        const response = await fetch('/groups/user_groups', options);
         const result = await response.json();
         document.getElementById('userToGroup').innerHTML = JSON.stringify(result, null, 4);
     } catch (error) {

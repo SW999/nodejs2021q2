@@ -1,3 +1,5 @@
+import { GROUP_PERMISSIONS } from '../constants';
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         const { INTEGER, STRING, ARRAY, ENUM } = Sequelize;
@@ -9,18 +11,13 @@ module.exports = {
                 type: INTEGER
             },
             name: {
-                type: STRING
+                type: STRING,
+                unique: true
             },
             permissions: {
                 allowNull: false,
                 type: ARRAY(
-                    ENUM([
-                        'READ',
-                        'WRITE',
-                        'DELETE',
-                        'SHARE',
-                        'UPLOAD_FILES'
-                    ])
+                    ENUM(...Object.values(GROUP_PERMISSIONS))
                 )
             }
         });

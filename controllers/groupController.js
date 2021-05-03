@@ -16,9 +16,7 @@ export const getAllGroups = async (req, res) => {
 export const getGroupById = async (req, res) => {
     try {
         const { id } = req.params;
-        const group = await Group.findOne({
-            where: { id }
-        });
+        const group = await Group.findByPk(id);
         if (group) {
             return res.status(200).json(group);
         }
@@ -41,13 +39,15 @@ export const createGroup = async (req, res) => {
 };
 
 export const editGroup = async (req, res) => {
+    const { name, permissions } = req.body;
+    const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
     try {
         const { id } = req.params;
-        const [updated] = await Group.update(req.body, {
+        const [updated] = await Group.update(groupObj, {
             where: { id }
         });
         if (updated) {
-            const updatedGroup = await Group.findOne({ where: { id } });
+            const updatedGroup = await Group.findByPk(id);
             return res.status(200).json({ group: updatedGroup });
         }
         return res.sendStatus(404);
@@ -72,10 +72,10 @@ export const deleteGroup = async (req, res) => {
 };
 
 export const addUserGroup = async (req, res) => {
-    const { groupId, userId } = req.params;
-    const { error, result } = addUsersToGroup(groupId, userId);
-    if (error && !result) {
-        return res.status(500).send(error || { error: 'There is no such user or group' });
+    const { groupId, userIds } = req.body;
+    const { error, result } = await addUsersToGroup(groupId, userIds);
+    if (!result || error) {
+        return res.status(500).send({ error: 'There is no such users or group' });
     }
-    return res.status(200).json({ result: `User #${userId} was added to group #${groupId}` });
+    return res.status(200).json({ result: `Users ${userIds} added to group id${groupId}` });
 };

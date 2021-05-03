@@ -19,19 +19,18 @@ export const getAutoSuggestUsers = async (loginSubstring, limit) => {
     }
 };
 
-export const addUsersToGroup = async (groupId, userId) => {
+export const addUsersToGroup = async (groupId, userIds) => {
     try {
         return await sequelize.transaction(async (t) => {
-            const user = await User.findOne({
-                where: { id: userId }
+            const users = await User.findAll({
+                where: { id: userIds.split(',') }
             });
-            const group = await Group.findOne({
-                where: { id: groupId }
-            });
-
-            await user.addGroup(group, { transaction: t });
-
-            return { result: user };
+            const group = await Group.findByPk(groupId);
+            await Promise.all(users.map(async user => await user.addGroup(group, { transaction: t })));
+            if (group && users.length) {
+                return { result: users };
+            }
+            return { error: true };
         });
     } catch (error) {
         return { error: error.message };

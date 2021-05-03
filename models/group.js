@@ -1,4 +1,5 @@
 import { Model } from 'sequelize';
+import { GROUP_PERMISSIONS } from '../constants';
 
 module.exports = (sequelize, DataTypes) => {
     const { ARRAY, ENUM, STRING } = DataTypes;
@@ -14,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     Group.init({
         name: STRING,
         permissions: ARRAY(ENUM({
-            values: ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']
+            values: Object.values(GROUP_PERMISSIONS)
         }))
     }, {
         sequelize,

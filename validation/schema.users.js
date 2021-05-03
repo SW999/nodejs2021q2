@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { GROUP_PERMISSIONS } from '../constants';
 
 export const userSchema = Joi.object(
     {

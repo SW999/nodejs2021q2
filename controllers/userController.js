@@ -4,9 +4,7 @@ import { getAutoSuggestUsers } from '../utils';
 export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findOne({
-            where: { id }
-        });
+        const user = await User.findByPk(id);
         // const user = await models.User.findAll();
         if (user) {
             return res.status(200).json(user);
