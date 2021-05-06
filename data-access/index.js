@@ -3,8 +3,8 @@ const config = require('../config/config')[env];
 const { database, username, password } = config;
 
 export {
-    config,
-    database,
-    password,
-    username
+  config,
+  database,
+  password,
+  username
 };

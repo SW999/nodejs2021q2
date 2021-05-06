@@ -24,6 +24,6 @@ app.use('/users', routes.user);
 app.use('/groups', routes.group);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-    open(`http://${host}:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
+  open(`http://${host}:${port}`);
 });

@@ -7,9 +7,9 @@ const router = Router();
 router.get('/', controllers.getLimitedUsersByLoginSubstring);
 
 router.route('/:id')
-    .get(controllers.getUserById)
-    .put(validateSchema(userSchemaEdit), controllers.editUser)
-    .delete(controllers.deleteUser);
+  .get(controllers.getUserById)
+  .put(validateSchema(userSchemaEdit), controllers.editUser)
+  .delete(controllers.deleteUser);
 
 router.post('/', validateSchema(userSchema), controllers.createUser);
 

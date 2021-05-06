@@ -2,80 +2,80 @@ import { Group } from '../models';
 import { addUsersToGroup } from '../utils';
 
 export const getAllGroups = async (req, res) => {
-    try {
-        const groups = await Group.findAll();
-        if (groups) {
-            return res.status(200).json(groups);
-        }
-        return res.status(404).send('There are no saved groups');
-    } catch (error) {
-        return res.status(500).send(error.message);
+  try {
+    const groups = await Group.findAll();
+    if (groups) {
+      return res.status(200).json(groups);
     }
+    return res.status(404).send('There are no saved groups');
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
 };
 
 export const getGroupById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const group = await Group.findByPk(id);
-        if (group) {
-            return res.status(200).json(group);
-        }
-        return res.status(404).json({ error: 'Group with the specified ID does not exists' });
-    } catch (error) {
-        return res.status(500).send(error.message);
+  try {
+    const { id } = req.params;
+    const group = await Group.findByPk(id);
+    if (group) {
+      return res.status(200).json(group);
     }
+    return res.status(404).json({ error: 'Group with the specified ID does not exists' });
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
 };
 
 export const createGroup = async (req, res) => {
-    const { name, permissions } = req.body;
-    const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
+  const { name, permissions } = req.body;
+  const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
 
-    try {
-        const group = await Group.create(groupObj);
-        return res.status(201).json(group);
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
+  try {
+    const group = await Group.create(groupObj);
+    return res.status(201).json(group);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
 export const editGroup = async (req, res) => {
-    const { name, permissions } = req.body;
-    const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
-    try {
-        const { id } = req.params;
-        const [updated] = await Group.update(groupObj, {
-            where: { id }
-        });
-        if (updated) {
-            const updatedGroup = await Group.findByPk(id);
-            return res.status(200).json({ group: updatedGroup });
-        }
-        return res.sendStatus(404);
-    } catch (error) {
-        return res.status(500).send(error.message);
+  const { name, permissions } = req.body;
+  const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
+  try {
+    const { id } = req.params;
+    const [updated] = await Group.update(groupObj, {
+      where: { id }
+    });
+    if (updated) {
+      const updatedGroup = await Group.findByPk(id);
+      return res.status(200).json({ group: updatedGroup });
     }
+    return res.sendStatus(404);
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
 };
 
 export const deleteGroup = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const deleted = await Group.destroy({
-            where: { id }
-        });
-        if (deleted) {
-            return res.status(204).send('Group deleted');
-        }
-        return res.status(404).send('Group not found');
-    } catch (error) {
-        return res.status(500).send(error.message);
+  try {
+    const { id } = req.params;
+    const deleted = await Group.destroy({
+      where: { id }
+    });
+    if (deleted) {
+      return res.status(204).send('Group deleted');
     }
+    return res.status(404).send('Group not found');
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
 };
 
 export const addUserGroup = async (req, res) => {
-    const { groupId, userIds } = req.body;
-    const { error, result } = await addUsersToGroup(groupId, userIds);
-    if (!result || error) {
-        return res.status(500).send({ error: 'There is no such users or group' });
-    }
-    return res.status(200).json({ result: `Users ${userIds} added to group id${groupId}` });
+  const { groupId, userIds } = req.body;
+  const { error, result } = await addUsersToGroup(groupId, userIds);
+  if (!result || error) {
+    return res.status(500).send({ error: 'There is no such users or group' });
+  }
+  return res.status(200).json({ result: `Users ${userIds} added to group id${groupId}` });
 };

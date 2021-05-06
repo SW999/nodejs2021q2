@@ -7,9 +7,9 @@ const router = Router();
 router.get('/', controllers.getAllGroups);
 
 router.route('/:id')
-    .get(controllers.getGroupById)
-    .put(validateSchema(groupSchemaEdit), controllers.editGroup)
-    .delete(controllers.deleteGroup);
+  .get(controllers.getGroupById)
+  .put(validateSchema(groupSchemaEdit), controllers.editGroup)
+  .delete(controllers.deleteGroup);
 
 router.post('/', validateSchema(groupSchema), controllers.createGroup);
 router.post('/user_groups', controllers.addUserGroup);

@@ -28,10 +28,3 @@ npm start
 A browser will open automatically at http://127.0.0.1:3000.
 
 **Please note**, all CRUD operations **_available from UI_**.
-
-## Issues:
-
-Please contact me in case of any issues/questions.
-
-
-May the Force be with you! :sunny:

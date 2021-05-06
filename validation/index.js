@@ -3,9 +3,9 @@ import { groupSchema, groupSchemaEdit } from './schema.groups';
 import { validateSchema } from './validateSchema';
 
 export {
-    groupSchema,
-    userSchema,
-    groupSchemaEdit,
-    userSchemaEdit,
-    validateSchema
+  groupSchema,
+  userSchema,
+  groupSchemaEdit,
+  userSchemaEdit,
+  validateSchema
 };
