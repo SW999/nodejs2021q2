@@ -30,8 +30,10 @@ forms.forEach(item => {
 $get.addEventListener('click', async e => {
   e.preventDefault();
   const formData = new FormData($getUser);
+  const id = formData.get('id');
+  const url = id ? `/users/${id}` : '/users';
 
-  const response = await fetch(`/users/${formData.get('id')}`);
+  const response = await fetch(url);
   const result = await response.json();
   document.getElementById('userById').innerHTML = JSON.stringify(result, null, 4);
 });
@@ -91,9 +93,14 @@ $delete.addEventListener('click', async e => {
 
 $send.addEventListener('click', async e => {
   e.preventDefault();
+  const formData = new FormData($form);
+  const options = {
+    method: 'POST',
+    body: formData
+  };
 
   try {
-    const response = await fetch(`/users?${new URLSearchParams(new FormData($form)).toString()}`);
+    const response = await fetch('/users/selected', options);
     const result = await response.json();
     document.getElementById('list').innerHTML =
           result.length > 0 ? result.map(item => `<li>${item}</li>`).join('') : '<p>Nothing found</p>';

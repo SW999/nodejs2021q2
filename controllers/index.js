@@ -11,6 +11,7 @@ import {
   createUser,
   deleteUser,
   editUser,
+  getAllUsers,
   getLimitedUsersByLoginSubstring,
   getUserById
 } from './userController';
@@ -20,6 +21,7 @@ export default {
   createGroup,
   deleteGroup,
   editGroup,
+  getAllUsers,
   getAllGroups,
   getGroupById,
 

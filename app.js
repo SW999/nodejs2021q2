@@ -1,8 +1,11 @@
 import express from 'express';
 import open from 'open';
 import dotenv from 'dotenv';
-import routes from './routes';
 import multer from 'multer';
+import morgan from 'morgan';
+import routes from './routes';
+import { requestArgsToString } from './utils';
+
 const upload = multer();
 dotenv.config();
 
@@ -18,6 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 app.use(upload.array());
 app.use(express.static('public'));
+
+morgan.token('param', req => requestArgsToString(req));
+app.use(morgan(':method :param'));
 
 app.use('/', routes.main);
 app.use('/users', routes.user);

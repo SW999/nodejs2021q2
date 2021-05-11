@@ -1,11 +1,22 @@
 import { User } from '../models';
 import { getAutoSuggestUsers } from '../utils';
 
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    if (users) {
+      return res.status(200).json(users);
+    }
+    return res.status(404).send('There are no saved users');
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
-    // const user = await models.User.findAll();
     if (user) {
       return res.status(200).json(user);
     }
@@ -57,7 +68,7 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getLimitedUsersByLoginSubstring = async (req, res) => {
-  const { loginSubstring, limit } = req.query;
+  const { loginSubstring, limit } = req.body;
   const { error, users } = await getAutoSuggestUsers(loginSubstring, limit);
   if (error) {
     return res.status(500).send(error);

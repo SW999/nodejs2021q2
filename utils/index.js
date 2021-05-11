@@ -36,3 +36,6 @@ export const addUsersToGroup = async (groupId, userIds) => {
     return { error: error.message };
   }
 };
+
+export const requestArgsToString =
+        req => Object.entries({ ...req.body, ...req.params, ...req.query }).map(([k, v]) => `${k}: ${v}`).join(', ');
