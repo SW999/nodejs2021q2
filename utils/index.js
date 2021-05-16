@@ -1,7 +1,8 @@
 import { Group, sequelize, User } from '../models';
 import { Op } from 'sequelize';
+import { BaseError } from './errors';
 
-export const getAutoSuggestUsers = async (loginSubstring, limit) => {
+const getAutoSuggestUsers = async (loginSubstring, limit) => {
   try {
     const users = await User.findAll({
       raw : true,
@@ -19,7 +20,7 @@ export const getAutoSuggestUsers = async (loginSubstring, limit) => {
   }
 };
 
-export const addUsersToGroup = async (groupId, userIds) => {
+const addUsersToGroup = async (groupId, userIds) => {
   try {
     return await sequelize.transaction(async (t) => {
       const users = await User.findAll({
@@ -37,5 +38,12 @@ export const addUsersToGroup = async (groupId, userIds) => {
   }
 };
 
-export const requestArgsToString =
+const requestArgsToString =
         req => Object.entries({ ...req.body, ...req.params, ...req.query }).map(([k, v]) => `${k}: ${v}`).join(', ');
+
+export {
+  BaseError,
+  addUsersToGroup,
+  getAutoSuggestUsers,
+  requestArgsToString
+};
