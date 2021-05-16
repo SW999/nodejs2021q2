@@ -6,12 +6,14 @@ function logError(err) {
 }
 
 function logErrorMiddleware(err, req, res, next) {
-  logError(err);
+  const { method, args, errorMessage } = err;
+  logError({ method, arguments: args, errorMessage });
   next(err);
 }
 
+// eslint-disable-next-line no-unused-vars
 function returnError(err, req, res, next) {
-  res.status(err.statusCode || 500).send(err.message);
+  res.status(err.statusCode || 500).send(err.statusCode ? { error: err.errorMessage } : 'Internal Server Error');
 }
 
 function isOperationalError(error) {

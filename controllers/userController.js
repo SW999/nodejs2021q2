@@ -1,77 +1,97 @@
 import { User } from '../models';
-import { getAutoSuggestUsers } from '../utils';
+import { getAutoSuggestUsers, NotFound } from '../utils';
+import { HTTP_STATUS_CODE } from '../constants';
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll();
-    if (users) {
-      return res.status(200).json(users);
+
+    if (!users) {
+      throw new NotFound('There are no saved users', req.method);
     }
-    return res.status(404).send('There are no saved users');
+
+    return res.status(HTTP_STATUS_CODE.OK).json(users);
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
-    if (user) {
-      return res.status(200).json(user);
+
+    if (!user) {
+      throw new NotFound(`User with id: ${id} not found.`, req.method, { id });
     }
-    return res.status(404).send('User with the specified ID does not exists');
+    return res.status(HTTP_STATUS_CODE.OK).json(user);
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    return res.status(201).json(user);
+    return res.status(HTTP_STATUS_CODE.CREATED).json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const editUser = async (req, res) => {
+export const editUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const [updated] = await User.update(req.body, {
       where: { id }
     });
-    if (updated) {
-      const updatedUser = await User.findOne({ where: { id } });
-      return res.status(200).json({ user: updatedUser });
+
+    if (!updated) {
+      throw new NotFound(`User with id: ${id} not found.`, req.method, { ...req.body });
     }
-    return res.sendStatus(404);
+
+    const updatedUser = await User.findOne({ where: { id } });
+    return res.status(HTTP_STATUS_CODE.OK).json({ user: updatedUser });
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const [deleted] = await User.update({ isDeleted: true }, {
       where: { id }
     });
-    if (deleted) {
-      const deletedUser = await User.findOne({ where: { id } });
-      return res.status(200).json({ user: deletedUser });
+
+    if (!deleted) {
+      throw new NotFound(`User with id: ${id} not found.`, req.method, { id });
     }
-    return res.sendStatus(404);
+
+    const deletedUser = await User.findOne({ where: { id } });
+    return res.status(HTTP_STATUS_CODE.OK).json({ user: deletedUser });
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const getLimitedUsersByLoginSubstring = async (req, res) => {
+export const getLimitedUsersByLoginSubstring = async (req, res, next) => {
   const { loginSubstring, limit } = req.body;
-  const { error, users } = await getAutoSuggestUsers(loginSubstring, limit);
-  if (error) {
-    return res.status(500).send(error);
+  try {
+    const users = await getAutoSuggestUsers(loginSubstring, limit);
+
+    if (users?.length < 1) {
+      throw new NotFound('There are no such users', req.method, { loginSubstring, limit });
+    }
+
+    return res.status(HTTP_STATUS_CODE.OK).json(users);
+  } catch (error) {
+    // eslint-disable-next-line callback-return
+    next(error);
   }
-  return res.status(200).json(users);
 };

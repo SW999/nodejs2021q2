@@ -35,7 +35,7 @@ $get.addEventListener('click', async e => {
 
   const response = await fetch(url);
   const result = await response.json();
-  document.getElementById('userById').innerHTML = JSON.stringify(result, null, 4);
+  document.getElementById('userById').innerHTML = JSON.stringify(result, null, 2);
 });
 
 $create.addEventListener('click', async e => {
@@ -50,7 +50,7 @@ $create.addEventListener('click', async e => {
   try {
     const response = await fetch('/users', options);
     const result = await response.json();
-    document.getElementById('newUser').innerHTML = JSON.stringify(result, null, 4);
+    document.getElementById('newUser').innerHTML = JSON.stringify(result, null, 2);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -69,7 +69,7 @@ $update.addEventListener('click', async e => {
   try {
     const response = await fetch(`/users/${id}`, options);
     const result = await response.json();
-    document.getElementById('updatedUser').innerHTML = JSON.stringify(result, null, 4);
+    document.getElementById('updatedUser').innerHTML = JSON.stringify(result, null, 2);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -85,7 +85,7 @@ $delete.addEventListener('click', async e => {
   try {
     const response = await fetch(`/users/${formData.get('id')}`, options);
     const result = await response.json();
-    document.getElementById('deletedUser').innerHTML = JSON.stringify(result, null, 4);
+    document.getElementById('deletedUser').innerHTML = JSON.stringify(result, null, 2);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -115,10 +115,15 @@ $getGroup.addEventListener('click', async e => {
   const formData = new FormData($groupForm);
   const id = formData.get('id');
   const url = id ? `/groups/${id}` : '/groups';
-
-  const response = await fetch(url);
-  const result = await response.json();
-  document.getElementById('groupById').innerHTML = JSON.stringify(result, null, 4);
+  let result;
+  try {
+    const response = await fetch(url);
+    result = await response.json();
+  } catch (error) {
+    result = { error: error.message };
+  } finally {
+    document.getElementById('groupById').innerHTML = JSON.stringify(result, null, 2);
+  }
 });
 
 $createGroup.addEventListener('click', async e => {
@@ -129,12 +134,15 @@ $createGroup.addEventListener('click', async e => {
     method: 'POST',
     body: formData
   };
+  let result;
   try {
     const response = await fetch('/groups', options);
-    const result = await response.json();
-    document.getElementById('newGroup').innerHTML = JSON.stringify(result, null, 4);
+    result = await response.json();
+    document.getElementById('newGroup').innerHTML = JSON.stringify(result, null, 2);
   } catch (error) {
-    console.error('Error:', error);
+    result = { error: error.message };
+  } finally {
+    document.getElementById('newGroup').innerHTML = JSON.stringify(result, null, 2);
   }
 });
 
@@ -147,12 +155,14 @@ $updateGroup.addEventListener('click', async e => {
     body: formData
   };
   const id = formData.get('id') ? formData.get('id') : null;
+  let result;
   try {
     const response = await fetch(`/groups/${id}`, options);
-    const result = await response.json();
-    document.getElementById('updatedGroup').innerHTML = JSON.stringify(result, null, 4);
+    result = await response.json();
   } catch (error) {
-    console.error('Error:', error);
+    result = { error: error.message };
+  } finally {
+    document.getElementById('updatedGroup').innerHTML = JSON.stringify(result, null, 2);
   }
 });
 
@@ -182,7 +192,7 @@ $addUserToGroup.addEventListener('click', async e => {
   try {
     const response = await fetch('/groups/user_groups', options);
     const result = await response.json();
-    document.getElementById('userToGroup').innerHTML = JSON.stringify(result, null, 4);
+    document.getElementById('userToGroup').innerHTML = JSON.stringify(result, null, 2);
   } catch (error) {
     console.error('Error:', error);
   }

@@ -1,6 +1,6 @@
 import { Group, sequelize, User } from '../models';
 import { Op } from 'sequelize';
-import { BaseError } from './errors';
+import { BaseError, NotFound } from './errors';
 
 const getAutoSuggestUsers = async (loginSubstring, limit) => {
   try {
@@ -14,9 +14,9 @@ const getAutoSuggestUsers = async (loginSubstring, limit) => {
       },
       limit
     });
-    return { users: users.map(user => user.login).sort() };
+    return users.map(user => user.login).sort();
   } catch (error) {
-    return { error: error.message };
+    return error.message;
   }
 };
 
@@ -29,12 +29,11 @@ const addUsersToGroup = async (groupId, userIds) => {
       const group = await Group.findByPk(groupId);
       await Promise.all(users.map(async user => await user.addGroup(group, { transaction: t })));
       if (group && users.length) {
-        return { result: users };
+        return users;
       }
-      return { error: true };
     });
   } catch (error) {
-    return { error: error.message };
+    return error.message;
   }
 };
 
@@ -43,6 +42,7 @@ const requestArgsToString =
 
 export {
   BaseError,
+  NotFound,
   addUsersToGroup,
   getAutoSuggestUsers,
   requestArgsToString

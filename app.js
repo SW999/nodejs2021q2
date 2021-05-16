@@ -2,10 +2,9 @@ import express from 'express';
 import open from 'open';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import morgan from 'morgan';
 import routes from './routes';
-import { requestArgsToString } from './utils';
-import { isOperationalError, logError } from './middleware';
+import { isOperationalError, logError, returnError, logErrorMiddleware } from './middleware';
+import { apiLogger } from './loggers';
 
 const upload = multer();
 dotenv.config();
@@ -23,12 +22,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(express.static('public'));
 
-morgan.token('param', req => requestArgsToString(req));
-app.use(morgan(':method :param'));
+app.use(apiLogger);
 
 app.use('/', routes.main);
 app.use('/users', routes.user);
 app.use('/groups', routes.group);
+
+app.use(logErrorMiddleware);
+app.use(returnError);
 
 process.on('unhandledRejection', error => {
   throw error;

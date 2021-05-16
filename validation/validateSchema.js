@@ -1,3 +1,5 @@
+import { HTTP_STATUS_CODE } from '../constants';
+
 const errorResponse = (schemaErrors) => {
   const errors = schemaErrors.map((error) => {
     const { path, message } = error;
@@ -18,7 +20,7 @@ export const validateSchema = (schema) => {
     });
 
     if (error?.isJoi) {
-      res.status(400).json(errorResponse(error.details));
+      res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(errorResponse(error.details));
     } else {
       // eslint-disable-next-line callback-return
       next();
