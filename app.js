@@ -1,8 +1,11 @@
 import express from 'express';
 import open from 'open';
 import dotenv from 'dotenv';
-import routes from './routes';
 import multer from 'multer';
+import routes from './routes';
+import { isOperationalError, logError, returnError, logErrorMiddleware } from './middleware';
+import { apiLogger } from './loggers';
+
 const upload = multer();
 dotenv.config();
 
@@ -19,9 +22,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(express.static('public'));
 
+app.use(apiLogger);
+
 app.use('/', routes.main);
 app.use('/users', routes.user);
 app.use('/groups', routes.group);
+
+app.use(logErrorMiddleware);
+app.use(returnError);
+
+process.on('unhandledRejection', error => {
+  throw error;
+});
+
+process.on('uncaughtException', error => {
+  logError(error);
+
+  if (!isOperationalError(error)) {
+    process.exit(1);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

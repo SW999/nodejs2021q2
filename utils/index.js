@@ -1,7 +1,8 @@
 import { Group, sequelize, User } from '../models';
 import { Op } from 'sequelize';
+import { BaseError, NotFound } from './errors';
 
-export const getAutoSuggestUsers = async (loginSubstring, limit) => {
+const getAutoSuggestUsers = async (loginSubstring, limit) => {
   try {
     const users = await User.findAll({
       raw : true,
@@ -13,13 +14,13 @@ export const getAutoSuggestUsers = async (loginSubstring, limit) => {
       },
       limit
     });
-    return { users: users.map(user => user.login).sort() };
+    return users.map(user => user.login).sort();
   } catch (error) {
-    return { error: error.message };
+    return error.message;
   }
 };
 
-export const addUsersToGroup = async (groupId, userIds) => {
+const addUsersToGroup = async (groupId, userIds) => {
   try {
     return await sequelize.transaction(async (t) => {
       const users = await User.findAll({
@@ -28,11 +29,21 @@ export const addUsersToGroup = async (groupId, userIds) => {
       const group = await Group.findByPk(groupId);
       await Promise.all(users.map(async user => await user.addGroup(group, { transaction: t })));
       if (group && users.length) {
-        return { result: users };
+        return users;
       }
-      return { error: true };
     });
   } catch (error) {
-    return { error: error.message };
+    return error.message;
   }
+};
+
+const requestArgsToString =
+        req => Object.entries({ ...req.body, ...req.params, ...req.query }).map(([k, v]) => `${k}: ${v}`).join(', ');
+
+export {
+  BaseError,
+  NotFound,
+  addUsersToGroup,
+  getAutoSuggestUsers,
+  requestArgsToString
 };

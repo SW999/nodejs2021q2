@@ -1,11 +1,11 @@
 # NodeJS Global Mentoring Program [2021Q2 BY PM1]
 
-## Task 4
+## Task 5
 
 ## Setup
 First of all, you need **Postgresql** DB installed on your machine.
 
-Next step. Please create the .env file in project root with content:
+First step. Please create the .env file in project root with content:
 ```sh
 PORT="3000"
 DB_HOST="127.0.0.1"
@@ -20,6 +20,11 @@ Will be done:
 - created the '**postgres_dev**' BD,
  - created **Users** and **Groups** tables in database,
 - transferd prepared default users and groups from 'seeds' to the database.
+
+Load dependencies:
+```sh
+npm i
+```
 
 To start an app you have to run:
 ```sh

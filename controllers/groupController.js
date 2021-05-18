@@ -1,44 +1,52 @@
 import { Group } from '../models';
-import { addUsersToGroup } from '../utils';
+import { addUsersToGroup, NotFound } from '../utils';
+import { HTTP_STATUS_CODE } from '../constants';
 
-export const getAllGroups = async (req, res) => {
+export const getAllGroups = async (req, res, next) => {
   try {
     const groups = await Group.findAll();
-    if (groups) {
-      return res.status(200).json(groups);
+
+    if (!groups) {
+      throw new NotFound('There are no saved groups', req.method);
     }
-    return res.status(404).send('There are no saved groups');
+
+    return res.status(HTTP_STATUS_CODE.OK).json(groups);
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const getGroupById = async (req, res) => {
+export const getGroupById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const group = await Group.findByPk(id);
-    if (group) {
-      return res.status(200).json(group);
+
+    if (!group) {
+      throw new NotFound(`Group with id: ${id} not found`, req.method, { id });
     }
-    return res.status(404).json({ error: 'Group with the specified ID does not exists' });
+
+    return res.status(HTTP_STATUS_CODE.OK).json(group);
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const createGroup = async (req, res) => {
+export const createGroup = async (req, res, next) => {
   const { name, permissions } = req.body;
   const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
 
   try {
     const group = await Group.create(groupObj);
-    return res.status(201).json(group);
+    return res.status(HTTP_STATUS_CODE.CREATED).json(group);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const editGroup = async (req, res) => {
+export const editGroup = async (req, res, next) => {
   const { name, permissions } = req.body;
   const groupObj = { name, permissions: (Array.isArray(permissions) ? permissions : [permissions]) };
   try {
@@ -46,36 +54,48 @@ export const editGroup = async (req, res) => {
     const [updated] = await Group.update(groupObj, {
       where: { id }
     });
-    if (updated) {
-      const updatedGroup = await Group.findByPk(id);
-      return res.status(200).json({ group: updatedGroup });
+
+    if (!updated) {
+      throw new NotFound(`Group with id: ${id} not found`, req.method, { ...req.body });
     }
-    return res.sendStatus(404);
+
+    const updatedGroup = await Group.findByPk(id);
+    return res.status(HTTP_STATUS_CODE.OK).json({ group: updatedGroup });
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const deleteGroup = async (req, res) => {
+export const deleteGroup = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleted = await Group.destroy({
       where: { id }
     });
-    if (deleted) {
-      return res.status(204).send('Group deleted');
+
+    if (!deleted) {
+      throw new NotFound(`Group with id: ${id} not found`, req.method, { id });
     }
-    return res.status(404).send('Group not found');
+
+    return res.status(HTTP_STATUS_CODE.DELETED).send('Group deleted');
   } catch (error) {
-    return res.status(500).send(error.message);
+    // eslint-disable-next-line callback-return
+    next(error);
   }
 };
 
-export const addUserGroup = async (req, res) => {
-  const { groupId, userIds } = req.body;
-  const { error, result } = await addUsersToGroup(groupId, userIds);
-  if (!result || error) {
-    return res.status(500).send({ error: 'There is no such users or group' });
+export const addUserGroup = async (req, res, next) => {
+  try {
+    const { groupId, userIds } = req.body;
+    const result = await addUsersToGroup(groupId, userIds);
+
+    if (!result) {
+      throw new NotFound('There are no such users or group', req.method, { groupId, userIds });
+    }
+    return res.status(HTTP_STATUS_CODE.OK).json({ result: `Users ${userIds} added to group id${groupId}` });
+  } catch (error) {
+    // eslint-disable-next-line callback-return
+    next(error);
   }
-  return res.status(200).json({ result: `Users ${userIds} added to group id${groupId}` });
 };
