@@ -12,7 +12,7 @@ class BaseError extends Error {
   }
 }
 
-class NotFound extends BaseError {
+class Error404 extends BaseError {
   constructor(
     errorMessage,
     method,
@@ -26,5 +26,9 @@ class NotFound extends BaseError {
     this.args = args;
   }
 }
+
+const NotFound = (errorMessage, method, args) => {
+  throw new Error404(errorMessage, method, args);
+};
 
 export { BaseError, NotFound };
