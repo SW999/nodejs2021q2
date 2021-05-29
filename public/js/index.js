@@ -21,6 +21,13 @@ const $deleteGroupForm = document.getElementById('deleteGroupForm');
 
 const $addUserToGroupForm = document.getElementById('addUserToGroupForm');
 const $addUserToGroup = document.getElementById('addUserToGroup');
+const getHeader = () => {
+  const token = sessionStorage.getItem('jwt');
+  return token ? {  headers: {
+    'mode': 'corse',
+    'Authorization': token
+  } } : {};
+};
 
 forms.forEach(item => {
   item.addEventListener('send', e => e.preventDefault());
@@ -33,7 +40,7 @@ $get.addEventListener('click', async e => {
   const id = formData.get('id');
   const url = id ? `/users/${id}` : '/users';
 
-  const response = await fetch(url);
+  const response = await fetch(url, { ...getHeader() });
   const result = await response.json();
   document.getElementById('userById').innerHTML = JSON.stringify(result, null, 2);
 });
@@ -45,8 +52,10 @@ $create.addEventListener('click', async e => {
   formData.append('isDeleted', false);
   const options = {
     method: 'POST',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
+
   try {
     const response = await fetch('/users', options);
     const result = await response.json();
@@ -63,7 +72,8 @@ $update.addEventListener('click', async e => {
   formData.append('isDeleted', false);
   const options = {
     method: 'PUT',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
   const id = formData.get('id') ? formData.get('id') : null;
   try {
@@ -80,7 +90,8 @@ $delete.addEventListener('click', async e => {
 
   const formData = new FormData($deleteForm);
   const options = {
-    method: 'DELETE'
+    method: 'DELETE',
+    ...getHeader()
   };
   try {
     const response = await fetch(`/users/${formData.get('id')}`, options);
@@ -96,7 +107,8 @@ $send.addEventListener('click', async e => {
   const formData = new FormData($form);
   const options = {
     method: 'POST',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
 
   try {
@@ -117,7 +129,7 @@ $getGroup.addEventListener('click', async e => {
   const url = id ? `/groups/${id}` : '/groups';
   let result;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { ...getHeader() });
     result = await response.json();
   } catch (error) {
     result = { error: error.message };
@@ -132,7 +144,8 @@ $createGroup.addEventListener('click', async e => {
   const formData = new FormData($createGroupForm);
   const options = {
     method: 'POST',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
   let result;
   try {
@@ -152,7 +165,8 @@ $updateGroup.addEventListener('click', async e => {
   const formData = new FormData($updateGroupForm);
   const options = {
     method: 'PUT',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
   const id = formData.get('id') ? formData.get('id') : null;
   let result;
@@ -171,7 +185,8 @@ $deleteGroup.addEventListener('click', async e => {
 
   const formData = new FormData($deleteGroupForm);
   const options = {
-    method: 'DELETE'
+    method: 'DELETE',
+    ...getHeader()
   };
   try {
     const response = await fetch(`/groups/${formData.get('id')}`, options);
@@ -187,7 +202,8 @@ $addUserToGroup.addEventListener('click', async e => {
   const formData = new FormData($addUserToGroupForm);
   const options = {
     method: 'POST',
-    body: formData
+    body: formData,
+    ...getHeader()
   };
   try {
     const response = await fetch('/groups/user_groups', options);

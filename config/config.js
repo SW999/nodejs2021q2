@@ -1,5 +1,6 @@
-require('dotenv').config();
-const { DB_HOST, DB_USERNAME, DB_PASSWORD } = process.env;
+import dotenv from 'dotenv';
+dotenv.config();
+const { DB_HOST, DB_USERNAME, DB_PASSWORD, TOKEN_SECRET } = process.env;
 
 module.exports = {
   'development': {
@@ -7,21 +8,24 @@ module.exports = {
     'password': DB_PASSWORD,
     'database': 'postgres_dev',
     'host': DB_HOST,
-    'dialect': 'postgres'
+    'dialect': 'postgres',
+    'secret': TOKEN_SECRET
   },
   'test': {
     'username': DB_USERNAME,
     'password': DB_PASSWORD,
     'database': 'database_test',
     'host': DB_HOST,
-    'dialect': 'postgres'
+    'dialect': 'postgres',
+    'secret': TOKEN_SECRET
   },
   'production': {
     'username': DB_USERNAME,
     'password': DB_PASSWORD,
     'database': 'database_prod',
     'host': DB_HOST,
-    'dialect': 'postgres'
+    'dialect': 'postgres',
+    'secret': TOKEN_SECRET
   }
 };
 

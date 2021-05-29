@@ -2,6 +2,7 @@ import express from 'express';
 import open from 'open';
 import dotenv from 'dotenv';
 import multer from 'multer';
+import cookieParser from 'cookie-parser';
 import routes from './routes';
 import { isOperationalError, logError, returnError, logErrorMiddleware } from './middleware';
 import { apiLogger } from './loggers';
@@ -21,10 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 app.use(upload.array());
 app.use(express.static('public'));
+app.use(cookieParser());
 
 app.use(apiLogger);
 
 app.use('/', routes.main);
+app.use('/login', routes.login);
 app.use('/users', routes.user);
 app.use('/groups', routes.group);
 

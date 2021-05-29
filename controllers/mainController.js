@@ -1,3 +1,7 @@
 export const mainController = (req, res) => {
-  res.render('index', { title: 'NodeJS course', header: 'CRUD operations' });
+  if (req?.cookies.token) {
+    res.render('index', { title: 'NodeJS course', header: 'CRUD operations' });
+  } else {
+    res.render('login', { title: 'Login', header: 'Login' });
+  }
 };
