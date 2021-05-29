@@ -33,6 +33,13 @@ forms.forEach(item => {
   item.addEventListener('send', e => e.preventDefault());
 });
 
+// We need it to remove httpOnly cookie
+window.addEventListener('beforeunload', (e) => {
+  e.preventDefault();
+  e.returnValue = '';
+  fetch('/logout', { method: 'POST', credentials: 'same-origin' });
+});
+
 // ************* Users *************
 $get.addEventListener('click', async e => {
   e.preventDefault();
