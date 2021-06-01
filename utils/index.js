@@ -1,6 +1,9 @@
+import jwt from 'jsonwebtoken';
 import { Group, sequelize, User } from '../models';
 import { Op } from 'sequelize';
-import { BaseError, NotFound } from './errors';
+import { BaseError, NotFound, UnauthorizedError, ForbiddenError } from './errors';
+import { secret } from '../data-access';
+import { USERS } from '../constants';
 
 const getAutoSuggestUsers = async (loginSubstring, limit) => {
   try {
@@ -40,10 +43,18 @@ const addUsersToGroup = async (groupId, userIds) => {
 const requestArgsToString =
         req => Object.entries({ ...req.body, ...req.params, ...req.query }).map(([k, v]) => `${k}: ${v}`).join(', ');
 
+const login = (username, password) => {
+  const user = USERS.find(u => u.username === username && u.password === password);
+  return user ? jwt.sign({ username: user.username, role: user.role }, secret) : null;
+};
+
 export {
   BaseError,
+  ForbiddenError,
   NotFound,
+  UnauthorizedError,
   addUsersToGroup,
   getAutoSuggestUsers,
+  login,
   requestArgsToString
 };

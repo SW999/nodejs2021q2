@@ -1,6 +1,6 @@
 # NodeJS Global Mentoring Program [2021Q2 BY PM1]
 
-## Task 5
+## Task 6
 
 ## Setup
 First of all, you need **Postgresql** DB installed on your machine.
@@ -11,6 +11,7 @@ PORT="3000"
 DB_HOST="127.0.0.1"
 DB_USERNAME=[YOUR_DB_USER]
 DB_PASSWORD=[YOUR_DB_PASSWORD]
+TOKEN_SECRET=[YOUR_TOKEN_SECRET_STRING]
 ```
 Initialize DB:
 ```sh
@@ -30,6 +31,8 @@ To start an app you have to run:
 ```sh
 npm start
 ```
-A browser will open automatically at http://127.0.0.1:3000.
+A browser will open automatically at http://127.0.0.1:3000 with **login form**.
 
-**Please note**, all CRUD operations **_available from UI_**.
+Please use **admin**/**admin** for login. Then the page will be reloaded with forms for **CRUD operations**.
+
+**Please note**, I don't use middleware to check HTTP Authorization for main rout only ('/'). I need it to show the Login form for the first load (as a trade-off). 

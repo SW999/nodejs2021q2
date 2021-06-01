@@ -27,8 +27,38 @@ class Error404 extends BaseError {
   }
 }
 
+class Error401 extends BaseError {
+  constructor(
+    errorMessage = 'Unauthorized request',
+    statusCode = HTTP_STATUS_CODE.UNAUTHORIZED,
+    description = 'Unauthorized',
+    isOperational = true,
+  ) {
+    super(errorMessage, statusCode, isOperational, description);
+  }
+}
+
+class Error403 extends BaseError {
+  constructor(
+    errorMessage = 'Forbidden',
+    statusCode = HTTP_STATUS_CODE.FORBIDDEN,
+    description = 'Forbidden',
+    isOperational = true,
+  ) {
+    super(errorMessage, statusCode, isOperational, description);
+  }
+}
+
 const NotFound = (errorMessage, method, args) => {
   throw new Error404(errorMessage, method, args);
 };
 
-export { BaseError, NotFound };
+const UnauthorizedError = (errorMessage) => {
+  throw new Error401(errorMessage);
+};
+
+const ForbiddenError = (errorMessage) => {
+  throw new Error403(errorMessage);
+};
+
+export { BaseError, NotFound, UnauthorizedError, ForbiddenError };

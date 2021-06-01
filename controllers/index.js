@@ -16,6 +16,9 @@ import {
   getUserById
 } from './userController';
 
+import { loginUser } from './loginController';
+import { logoutUser } from './logoutController';
+
 export default {
   addUserGroup,
   createGroup,
@@ -24,6 +27,9 @@ export default {
   getAllUsers,
   getAllGroups,
   getGroupById,
+
+  loginUser,
+  logoutUser,
 
   createUser,
   deleteUser,
