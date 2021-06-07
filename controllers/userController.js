@@ -1,5 +1,5 @@
 import { User } from '../models';
-import { getAutoSuggestUsers, NotFound } from '../utils';
+import { getAutoSuggestUsers, NotFound, BaseError } from '../utils';
 import { HTTP_STATUS_CODE } from '../constants';
 
 export const getAllUsers = async (req, res, next) => {
@@ -33,6 +33,9 @@ export const getUserById = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
+    if (!user) {
+      throw new BaseError('Internal Server Error', false, 'Internal Server Error');
+    }
     return res.status(HTTP_STATUS_CODE.CREATED).json(user);
   } catch (error) {
     next(error);
@@ -50,7 +53,7 @@ export const editUser = async (req, res, next) => {
       NotFound(`User with id: ${id} not found.`, req.method, { ...req.body });
     }
 
-    const updatedUser = await User.findOne({ where: { id } });
+    const updatedUser = await User.findByPk(id);
     return res.status(HTTP_STATUS_CODE.OK).json({ user: updatedUser });
   } catch (error) {
     next(error);
@@ -68,7 +71,7 @@ export const deleteUser = async (req, res, next) => {
       NotFound(`User with id: ${id} not found.`, req.method, { id });
     }
 
-    const deletedUser = await User.findOne({ where: { id } });
+    const deletedUser = await User.findByPk(id);
     return res.status(HTTP_STATUS_CODE.OK).json({ user: deletedUser });
   } catch (error) {
     next(error);
@@ -79,7 +82,6 @@ export const getLimitedUsersByLoginSubstring = async (req, res, next) => {
   const { loginSubstring, limit } = req.body;
   try {
     const users = await getAutoSuggestUsers(loginSubstring, limit);
-    console.log('Users: ', users);
     if (users?.length < 1) {
       NotFound('There are no such users', req.method, { loginSubstring, limit });
     }

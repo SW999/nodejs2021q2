@@ -5,7 +5,7 @@ import { BaseError, NotFound, UnauthorizedError, ForbiddenError } from './errors
 import { secret } from '../data-access';
 import { USERS } from '../constants';
 
-const getAutoSuggestUsers = async (loginSubstring, limit) => {
+export const getAutoSuggestUsers = async (loginSubstring, limit) => {
   try {
     const users = await User.findAll({
       raw : true,
@@ -23,7 +23,7 @@ const getAutoSuggestUsers = async (loginSubstring, limit) => {
   }
 };
 
-const addUsersToGroup = async (groupId, userIds) => {
+export const addUsersToGroup = async (groupId, userIds) => {
   try {
     return await sequelize.transaction(async (t) => {
       const users = await User.findAll({
@@ -40,10 +40,10 @@ const addUsersToGroup = async (groupId, userIds) => {
   }
 };
 
-const requestArgsToString =
+export const requestArgsToString =
         req => Object.entries({ ...req.body, ...req.params, ...req.query }).map(([k, v]) => `${k}: ${v}`).join(', ');
 
-const login = (username, password) => {
+export const login = (username, password) => {
   const user = USERS.find(u => u.username === username && u.password === password);
   return user ? jwt.sign({ username: user.username, role: user.role }, secret) : null;
 };
@@ -52,9 +52,5 @@ export {
   BaseError,
   ForbiddenError,
   NotFound,
-  UnauthorizedError,
-  addUsersToGroup,
-  getAutoSuggestUsers,
-  login,
-  requestArgsToString
+  UnauthorizedError
 };
