@@ -1,5 +1,5 @@
 import { Group } from '../models';
-import { addUsersToGroup, NotFound } from '../utils';
+import { addUsersToGroup, BaseError, NotFound } from '../utils';
 import { HTTP_STATUS_CODE } from '../constants';
 
 export const getAllGroups = async (req, res, next) => {
@@ -37,6 +37,10 @@ export const createGroup = async (req, res, next) => {
 
   try {
     const group = await Group.create(groupObj);
+    if (!group) {
+      throw new BaseError('Internal Server Error', false, 'Internal Server Error');
+    }
+
     return res.status(HTTP_STATUS_CODE.CREATED).json(group);
   } catch (error) {
     next(error);

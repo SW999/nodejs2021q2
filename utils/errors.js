@@ -1,11 +1,12 @@
 import { HTTP_STATUS_CODE } from '../constants';
 
 class BaseError extends Error {
-  constructor(errorMessage, isOperational, description) {
+  constructor(errorMessage, statusCode, isOperational, description) {
     super(description);
 
     Object.setPrototypeOf(this, new.target.prototype);
     this.errorMessage = errorMessage;
+    this.statusCode = statusCode;
     this.isOperational = isOperational;
     this.name = 'BaseError';
     Error.captureStackTrace(this);

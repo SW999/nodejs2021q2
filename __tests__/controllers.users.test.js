@@ -119,10 +119,6 @@ describe('User controller methods:', () => {
     expect(res.json).toBeCalledWith(['test']);
     expect(res.status).toBeCalledWith(HTTP_STATUS_CODE.OK);
   });
-  jest.mock('../utils', () => ({
-    ...jest.requireActual('../utils'),
-    getAutoSuggestUsers: jest.fn().mockReturnValue(Promise.resolve([]))
-  }));
 
   it('Should test #getLimitedUsersByLoginSubstring with 404 status', async () => {
     jest.spyOn(utils, 'getAutoSuggestUsers').mockImplementation(() => Promise.resolve([]));
