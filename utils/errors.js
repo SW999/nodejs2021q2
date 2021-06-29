@@ -8,6 +8,7 @@ class BaseError extends Error {
     this.errorMessage = errorMessage;
     this.statusCode = statusCode;
     this.isOperational = isOperational;
+    this.name = 'BaseError';
     Error.captureStackTrace(this);
   }
 }
@@ -17,13 +18,15 @@ class Error404 extends BaseError {
     errorMessage,
     method,
     args = '-',
-    statusCode = HTTP_STATUS_CODE.NOT_FOUND,
-    description = 'Not found',
-    isOperational = true,
   ) {
-    super(errorMessage, statusCode, isOperational, description);
+    super(errorMessage);
+
     this.method = method;
+    this.isOperational = true;
+    this.statusCode = HTTP_STATUS_CODE.NOT_FOUND;
+    this.description = 'Not found';
     this.args = args;
+    this.name = 'Error404';
   }
 }
 
@@ -61,4 +64,4 @@ const ForbiddenError = (errorMessage) => {
   throw new Error403(errorMessage);
 };
 
-export { BaseError, NotFound, UnauthorizedError, ForbiddenError };
+export { BaseError, NotFound, UnauthorizedError, ForbiddenError, Error404 };
