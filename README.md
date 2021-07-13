@@ -1,7 +1,5 @@
 # NodeJS Global Mentoring Program [2021Q2 BY PM1]
 
-## Task 7
-
 ## Setup
 First of all, you need **Postgresql** DB installed on your machine.
 
